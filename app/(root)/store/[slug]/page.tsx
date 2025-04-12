@@ -1,8 +1,6 @@
 import React from 'react'
-import { client } from '@/sanity/lib/client'
-import { FETCH_STORE_BY_SLUG } from '@/sanity/lib/queries'
 import SideCoupon from '@/components/SideCoupon'
-import { notFound } from 'next/navigation'
+
 
 const StorePage = async ({params,}: {params: Promise<{ slug: string }>}) => {
   const { slug } = await params
@@ -24,3 +22,4 @@ const StorePage = async ({params,}: {params: Promise<{ slug: string }>}) => {
 
 export default StorePage
 
+export const revalidate = 60;

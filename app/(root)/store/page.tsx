@@ -25,3 +25,4 @@ const Store = () => {
 }
 
 export default Store;
+export const revalidate = 60;

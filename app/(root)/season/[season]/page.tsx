@@ -66,3 +66,4 @@ const SeasonPage = async ({ params }: { params: Promise<{ season: string }> }) =
 };
 
 export default SeasonPage;
+export const revalidate = 60;

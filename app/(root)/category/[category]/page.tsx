@@ -102,3 +102,4 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   );
 }
 
+export const revalidate = 60;

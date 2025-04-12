@@ -23,3 +23,4 @@ const CouponCodePage = async ({params,}: {params: Promise<{ slug: string }>}) =>
 
 export default CouponCodePage
 
+export const revalidate = 60;

@@ -67,3 +67,5 @@ const CouponType = async ({ params }: { params: Promise<{ coupontype: string }> 
 };
 
 export default CouponType;
+
+export const revalidate = 60;

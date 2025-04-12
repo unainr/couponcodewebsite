@@ -46,4 +46,3 @@ const StoreFetch = async () => {
 }
 
 export default StoreFetch
-export const revalidate = 60;
