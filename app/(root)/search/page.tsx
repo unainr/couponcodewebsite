@@ -199,4 +199,3 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 };
 
 export default SearchPage;
-export const revalidate = 60;

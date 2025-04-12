@@ -120,7 +120,7 @@ export default async function SideCoupon({ slug }: { slug: string }) {
 										id={coupon._id}
 										code={coupon.couponcode}
 										couponTitle={coupon.coupontitle}
-										description={paraseCouponDescription}
+										description={md.render(coupon.description)}
 										coupontype={coupon.coupontype}
 										couponurl={coupon.couponurl}
 										featured={coupon.featured}
