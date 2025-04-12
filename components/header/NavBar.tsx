@@ -48,13 +48,13 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 					<div className="hidden md:flex items-center space-x-4">
 						<Link
 							href="/"
-							className="text-gray-600 font-medium hover:text-blue-600 transition-colors ">
+							className="text-gray-600 font-medium hover:text-orange-600 transition-colors ">
 							Home
 						</Link>
 						
 						<Link
 							href="/store"
-							className="text-gray-600 font-medium hover:text-blue-600 transition-colors ">
+							className="text-gray-600 font-medium hover:text-orange-600 transition-colors ">
 							Stores
 						</Link>
 						{/* Categories Dropdown */}
@@ -64,7 +64,7 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 									<Button
 									size="icon"
 										variant="ghost"
-										className=" text-gray-600 hover:text-blue-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
+										className=" text-gray-600 hover:text-orange-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
 										Categories <ChevronDown className=" h-3 w-3" />
 									</Button>
 								</DropdownMenuTrigger>
@@ -88,7 +88,7 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 									<Button
 									size={"icon"}
 										variant="ghost"
-										className="text-gray-600 hover:text-blue-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
+										className="text-gray-600 hover:text-orange-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
 										Coupons <ChevronDown className=" h-3 w-3" />
 									</Button>
 								</DropdownMenuTrigger>
@@ -113,7 +113,7 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 									<Button
 									size={"icon"}
 										variant="ghost"
-										className="text-gray-600 hover:text-blue-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
+										className="text-gray-600 hover:text-orange-500 hover:bg-white w-full transition-colors focus:outline-none focus:ring-0">
 										Season <ChevronDown className=" h-3 w-3" />
 									</Button>
 								</DropdownMenuTrigger>
@@ -138,7 +138,7 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 					<div className="md:hidden">
 						<button
 							onClick={() => setIsOpen(!isOpen)}
-							className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
+							className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-orange-600 focus:outline-none">
 							{isOpen ? (
 								<X className="h-6 w-6" />
 							) : (
@@ -154,13 +154,13 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 				<div className="px-2 pt-2 pb-3 space-y-1 bg-white">
 					<Link
 						href="/"
-						className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+						className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50"
 						onClick={() => setIsOpen(false)}>
 						Home
 					</Link>
 					<Link
 						href="/stores"
-						className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+						className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50"
 						onClick={() => setIsOpen(false)}>
 						 Stores
 					</Link>
@@ -171,7 +171,7 @@ const NavBar = ({ categories , couponTypes,season }: NavBarClientProps) => {
 								<DropdownMenuTrigger asChild>
 									<Button
 										variant="ghost"
-										className="hover:text-blue-500 hover:bg-white transition-all duration-300">
+										className="hover:text-orange-500 hover:bg-white transition-all duration-300">
 										Categories <ChevronDown className="ml-1 h-4 w-4" />
 									</Button>
 								</DropdownMenuTrigger>
