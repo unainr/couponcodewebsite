@@ -6,7 +6,7 @@ import SearchForm from '@/components/SearchForm';
 import Link from 'next/link';
 
 interface SearchPageProps {
-  searchParams: { q?: string };
+  searchParams: Promise< { q?: string }>;
 }
 
 interface Store {
