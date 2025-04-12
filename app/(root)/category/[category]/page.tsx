@@ -35,7 +35,7 @@ async function getCategoryData(urlCategoryName: string) {
   return {  stores, category: matchedCategory };
 }
 
-export default async function CategoryPage({ params }: { params: { category: string } }) {
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   
   const data = await getCategoryData(category);
