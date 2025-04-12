@@ -4,6 +4,7 @@ import { SEARCH_QUERY } from '@/sanity/lib/queries';
 import Coupon from '@/components/Coupon';
 import SearchForm from '@/components/SearchForm';
 import Link from 'next/link';
+import markdownit from "markdown-it";
 
 interface SearchPageProps {
   searchParams: Promise< { q?: string }>;
@@ -38,6 +39,8 @@ interface CouponItem {
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
     const searchTerm = (await searchParams).q || '';  
+  const md = markdownit();
+
   // If no search term, show empty state
   if (!searchTerm) {
     return (
@@ -155,7 +158,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
                    key={coupon._id}
                    id={coupon._id}
                    code={coupon.couponcode || ""}
-                   description={(coupon.description) || ""}
+                   description={md.render(coupon.description) || ""}
                    expiryDate={formatDate(coupon.expiredate)}
                    updateDate={formatDate(coupon.publishdate)}
                    storeImage={coupon.storeImage || ""}
