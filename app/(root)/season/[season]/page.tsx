@@ -4,7 +4,7 @@ import {  COUPONS_BY_SEASON_QUERY, SEASON_TYPE_QUERY } from '@/sanity/lib/querie
 import Coupon from '@/components/Coupon';
 import markdownit from "markdown-it";
 
-const SeasonPage = async ({ params }: { params: { season: string } }) => {
+const SeasonPage = async ({ params }: { params: Promise<{ season: string }> }) => {
   const { season } = await params;
   const md = markdownit();
   
