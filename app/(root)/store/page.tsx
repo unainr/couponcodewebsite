@@ -2,10 +2,7 @@ import React from 'react';
 import StoreFetch from '@/components/StoreFetch';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Browse All Stores | Find Exclusive Coupon Codes',
-  description: 'Discover all our partner stores and find exclusive coupon codes, deals, and discounts to save on your online shopping.',
-};
+
 
 const Store = () => {
   return (
@@ -26,3 +23,8 @@ const Store = () => {
 
 export default Store;
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Browse All Stores | RedeemlynNow Exclusive Coupon Codes & Deals',
+  description: 'Discover thousands of partner stores with exclusive coupon codes, promo offers, and discount deals. Save money on your online shopping with verified and daily updated promotions from RedeemlynNow.',
+};

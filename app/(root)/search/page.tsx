@@ -5,6 +5,30 @@ import Coupon from '@/components/Coupon';
 import SearchForm from '@/components/SearchForm';
 import Link from 'next/link';
 import markdownit from "markdown-it";
+import { Metadata } from 'next';
+
+// Generate dynamic metadata based on search query
+export async function generateMetadata({ searchParams }:SearchPageProps): Promise<Metadata> {
+  const searchTerm = (await searchParams).q || '';  
+
+  if (!searchTerm) {
+    return {
+      title: 'Search for Coupon Codes & Deals | RedeemlynNow',
+      description: 'Search for the best coupon codes, promo offers, and discount deals from thousands of stores. Find savings for your favorite brands at RedeemlynNow.',
+    };
+  }
+  
+  return {
+    title: `Search Results for ${searchTerm} | RedeemlynNow Coupon Codes & Deals`,
+    description: `Find the best coupon codes and deals matching "${searchTerm}". Discover verified promo offers and discounts for your search at RedeemlynNow.`,
+    robots: {
+      index: false, // Don't index search results pages
+      follow: true,
+    },
+  };
+}
+
+
 
 interface SearchPageProps {
   searchParams: Promise< { q?: string }>;

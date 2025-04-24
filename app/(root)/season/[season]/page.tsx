@@ -3,6 +3,30 @@ import { client } from '@/sanity/lib/client';
 import {  COUPONS_BY_SEASON_QUERY, SEASON_TYPE_QUERY } from '@/sanity/lib/queries';
 import Coupon from '@/components/Coupon';
 import markdownit from "markdown-it";
+import { Metadata } from 'next';
+
+
+export async function generateMetadata({ params }: { params: Promise<{ season: string }> }): Promise<Metadata> {
+  const { season } = await params;
+
+  // Fetch the season details for metadata
+  const seasonData = await client.fetch(SEASON_TYPE_QUERY, { season });
+  
+  if (!seasonData) {
+    return {
+      title: 'Season Not Found | RedeemlynNow',
+      description: 'The requested seasonal deals could not be found. Browse our other seasonal offers for coupon codes and deals.',
+    };
+  }
+  
+  return {
+    title: `${seasonData.name} Coupon Codes & Deals - Limited Time Offers | RedeemlynNow`,
+    description: `Save big with exclusive ${seasonData.name} coupon codes, promo offers, and limited-time deals. Find the best ${seasonData.name} discounts from top brands at RedeemlynNow.`,
+    keywords: `${seasonData.name} coupons, ${seasonData.name} deals, ${seasonData.name} offers, seasonal discounts, holiday deals, RedeemlynNow`,
+  };
+}
+
+// Meta data for the page
 
 const SeasonPage = async ({ params }: { params: Promise<{ season: string }> }) => {
   const { season } = await params;

@@ -6,6 +6,38 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { ALL_CATEGORIES_QUERY, STORES_BY_CATEGORY_NAME_QUERY } from "@/sanity/lib/queries";
+import { Metadata } from "next";
+
+
+// Generate dynamic metadata based on the category data
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
+  const { category } = await params;
+
+  
+  // Get all categories to find the matching one
+  const allCategories = await client.fetch(ALL_CATEGORIES_QUERY);
+  
+  // Find the category whose URL-friendly name matches the parameter
+  const matchedCategory = allCategories.find((cat: any) => 
+    (cat.slug) === category
+  );
+  
+  if (!matchedCategory) {
+    return {
+      title: 'Category Not Found | RedeemlynNow',
+      description: 'The requested category could not be found. Browse our other categories for coupon codes and deals.',
+    };
+  }
+  
+  return {
+    title: `${matchedCategory.name} Coupons & Promo Codes - Top ${matchedCategory.count} Stores | RedeemlynNow`,
+    description: `Find the best ${matchedCategory.name} coupon codes, promo offers, and exclusive deals. Save money on ${matchedCategory.name} products and services with verified discounts from RedeemlynNow.`,
+    keywords: `${matchedCategory.name} coupons, ${matchedCategory.name} promo codes, ${matchedCategory.name} deals, ${matchedCategory.name} discounts, ${matchedCategory.name} stores, RedeemlynNow`,
+  };
+}
+
+
+
 
 async function getCategoryData(urlCategoryName: string) {
 

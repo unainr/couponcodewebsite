@@ -3,6 +3,34 @@ import { client } from '@/sanity/lib/client';
 import { COUPON_TYPE_QUERY, COUPONS_BY_TYPE_QUERY } from '@/sanity/lib/queries';
 import Coupon from '@/components/Coupon';
 import markdownit from "markdown-it";
+import { Metadata } from 'next';
+
+
+// Generate dynamic metadata based on the coupon type data
+export async function generateMetadata({ params }: { params:  Promise<{ coupontype: string }> }): Promise<Metadata> {
+  const { coupontype } = await params;
+
+  // Fetch the coupon type details for metadata
+  const couponType = await client.fetch(COUPON_TYPE_QUERY, { coupontype });
+  
+  if (!couponType) {
+    return {
+      title: 'Coupon Type Not Found | RedeemlynNow',
+      description: 'The requested coupon type could not be found. Browse our other coupon categories for deals and discounts.',
+    };
+  }
+  
+  return {
+    title: `${couponType.name} Coupons & Promo Codes - Exclusive Offers | RedeemlynNow`,
+    description: `Find the best ${couponType.name} coupons, promo codes, and exclusive offers. Save money with verified ${couponType.name.toLowerCase()} from top brands at RedeemlynNow.`,
+    keywords: `${couponType.name} coupons, ${couponType.name} promo codes, ${couponType.name} offers, ${couponType.name} deals, RedeemlynNow`,
+  };
+}
+
+
+
+
+
 
 const CouponType = async ({ params }: { params: Promise<{ coupontype: string }> }) => {
   const md = markdownit();

@@ -46,6 +46,15 @@ const Coupon = ({
 		}
 	}, [pathname, slug, storeId]);
 
+	const handleShowUrl = () => {
+		setTimeout(() => {
+			if(couponurl){
+
+				window.location.href = couponurl;
+			}
+		}, 1000);
+	 }
+
 	return (
 		<>
 			<div className="flex flex-col md:flex-row items-start justify-between bg-white p-4 md:p-6 mb-6 rounded-lg  transition-shadow duration-300 gap-4">
@@ -83,15 +92,17 @@ const Coupon = ({
 					</div>
 				</div>
 				<div className="flex flex-col items-center md:items-end mt-2 md:mt-0 w-full md:w-1/4 md:min-w-[150px]">
+				<button onClick={handleShowUrl} className={`bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-200 w-full md:w-auto font-medium ${buttonText === "Show Deal" ? "bg-black hover:bg-gray-800" : "bg-orange-500 hover:bg-orange-600"}`}>
 					<Link
 						href={`/store/${slug}/${storeId}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="mb-2">
-						<button className={`bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-200 w-full md:w-auto font-medium ${buttonText === "Show Deal" ? "bg-black hover:bg-gray-800" : "bg-orange-500 hover:bg-orange-600"}`}>
-							{buttonText}
-						</button>
+						
+						
+					{buttonText}
 					</Link>
+					</button>
 					<p className="text-sm text-gray-500 mt-2">Updated: {updateDate}</p>
 				</div>
 			</div>
@@ -127,6 +138,12 @@ const Coupon = ({
 												</Button>
 											</Link>
 										)}
+									</div>
+									<div className="flex flex-col bg-orange-400 hover:bg-orange-500 transition-all duration-300 p-1 rounded-full text-white uppercase items-center justify-between  mt-2">
+
+										<Link href={couponurl} rel="noopener noreferrer">
+										Go To {slug}
+										</Link>
 									</div>
 								</div>
 							</div>
