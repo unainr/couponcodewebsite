@@ -14,7 +14,7 @@ export default function Home() {
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "RedeemlynNow - Save Money with Exclusive Coupon Codes & Promo Deals",
-  description: "Discover thousands of verified coupon codes, promo offers, and exclusive discount deals from your favorite retailers. RedeemlynNow helps you save money on every purchase with daily updated offers.",
-  keywords: "coupon codes, promo codes, discount codes, online deals, save money, RedeemlynNow",
+  title: "RedeemlynNow - Save Money with the Best Coupon Codes & Deals",
+  description: "Find and redeem the latest coupon codes, promo offers, and deals from thousands of top retailers. Save money on your online shopping with RedeemlynNow.",
+  keywords: "coupon codes, promo codes, discount codes, deals, online shopping, save money, RedeemlynNow",
 };
