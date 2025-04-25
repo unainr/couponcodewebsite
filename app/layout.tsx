@@ -30,8 +30,7 @@ export const metadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		title: "RedeemlyNow | Exclusive Coupon Codes & Discount Deals",
-		description:
-			"Find the best coupon codes, promo offers & discount deals for your favorite online stores. Save money with RedeemlyNow's verified deals.",
+		description: "Save big with the latest coupon codes and discount offers from RedeemlyNow.",
 	},
 	alternates: {
 		canonical: "https://redeemlynow.com",
