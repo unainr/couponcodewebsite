@@ -23,8 +23,20 @@ const Store = () => {
 export default Store;
 export const revalidate = 60;
 
+
 export const metadata: Metadata = {
-	title: "Browse All Stores | RedeemlyNow Exclusive Coupon Codes & Deals",
-	description:
-		"Discover thousands of partner stores with exclusive coupon codes, promo offers, and discount deals. Save money on your online shopping with verified and daily updated promotions from RedeemlyNow.",
+    title: "RedeemlyNow: Ultimate Coupon Codes & Discount Deals | Save Big Online",
+    description: "Find top verified coupon codes and exclusive deals from 1000+ partner stores. Maximize your savings with real-time, daily updated promo offers across multiple shopping categories.",
+    keywords: "coupon codes, discount deals, online shopping, promo offers, savings",
+    openGraph: {
+        title: "RedeemlyNow: Exclusive Coupon Codes & Deals",
+        description: "Discover massive savings with verified promo codes from top online stores",
+        type: "website",
+        url: "https://www.redeemly.com/store"
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "RedeemlyNow: Save Big with Verified Coupon Codes",
+        description: "Unlock exclusive discounts and promo offers from 1000+ stores"
+    }
 };

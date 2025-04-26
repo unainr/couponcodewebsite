@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://redeemlynow.com
-
-# Sitemaps
-Sitemap: https://redeemlynow.com/sitemap.xml

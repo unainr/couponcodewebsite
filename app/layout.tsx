@@ -13,24 +13,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "RedeemlyNow | Exclusive Coupon Codes, Promo Offers & Discount Deals",
+	title: "RedeemlyNow | Best Coupon Codes & Verified Discount Deals 2025",
 	description:
-		"Save money on every purchase with RedeemlyNow's verified coupon codes, promo offers & exclusive discount deals. Updated daily with seasonal promotions for all your favorite online retailers.",
-	keywords:
-		"coupon codes, promo codes, discount deals, RedeemlyNow, online shopping, save money, promotional offers, verified coupons, shopping deals",
+    "Save up to 70% with RedeemlyNow's hand-verified coupon codes, exclusive promo offers & daily updated discount deals for 1000+ popular retailers. Never pay full price again!",
+  keywords:
+    "coupon codes 2025, active promo codes, verified discount deals, RedeemlyNow, online shopping savings, exclusive promotional offers",
 	openGraph: {
 		type: "website",
 		locale: "en_US",
 		url: "https://redeemlynow.com",
 		siteName: "RedeemlyNow",
-		title: "RedeemlyNow | Exclusive Coupon Codes & Discount Deals",
+		title: "RedeemlyNow | Best Coupon Codes & Verified Discount Deals 2025",
 		description:
-			"Find the best coupon codes, promo offers & discount deals for your favorite online stores. Save money with RedeemlyNow's verified deals updated daily.",
+		"Discover today's best hand-verified coupon codes & exclusive discount deals. RedeemlyNow helps shoppers save up to 70% at 1000+ popular stores.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "RedeemlyNow | Exclusive Coupon Codes & Discount Deals",
-		description: "Save big with the latest coupon codes and discount offers from RedeemlyNow.",
+		title: "RedeemlyNow | Save Up To 70% With Today's Verified Coupons",
+		description: "Instant savings with verified coupon codes for your favorite brands. Updated hourly with success rates!",
 	},
 	alternates: {
 		canonical: "https://redeemlynow.com",
