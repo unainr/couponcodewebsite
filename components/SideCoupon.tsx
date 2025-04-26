@@ -77,31 +77,6 @@ export default async function SideCoupon({ slug }: { slug: string }) {
 								</Link>
 							)}
 						</div>
-
-						<div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-							<h3 className="text-xl font-bold mb-4 text-gray-800">
-								Similar Stores
-							</h3>
-							<ul className="space-y-3">
-								{/* Similar stores would be fetched and mapped here */}
-								<li className="text-gray-700 hover:text-orange-500 cursor-pointer transition duration-200 flex items-center">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-4 w-4 mr-2 text-orange-400"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor">
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M9 5l7 7-7 7"
-										/>
-									</svg>
-									Similar Store Example
-								</li>
-							</ul>
-						</div>
 					</div>
 
 					{/* Main Content */}
