@@ -28,6 +28,7 @@ export interface StoreCouponProps {
     publishdate: string;
     expiredate: string;
     featured: string;
+    order: number;
   }[];
 }
 

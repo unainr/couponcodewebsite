@@ -63,6 +63,13 @@ export const addCoupon = defineType({
             title: "featured",
             to: [{ type: "featured" }],
         }),
+        defineField({
+            name: "order",
+            title: "Display Order",
+            type: "number",
+            description: "Order in which this coupon should appear (lower numbers appear first)",
+            initialValue: 0,
+        }),
     
     ]
 })

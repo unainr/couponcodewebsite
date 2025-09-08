@@ -137,6 +137,8 @@ const NavBar = ({ categories, couponTypes, season }: NavBarClientProps) => {
 						</div>
 
 						<SearchForm />
+						
+						
 					</div>
 
 					{/* Mobile Menu Button */}

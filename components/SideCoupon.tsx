@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Coupon from "./Coupon";
+import SimpleCouponList from "./SimpleCouponList";
 import { client } from "@/sanity/lib/client";
 import { FETCH_STORE_BY_SLUG } from "@/sanity/lib/queries";
 import { StoreCouponProps } from "@/lib/types";
@@ -88,26 +89,24 @@ export default async function SideCoupon({ slug }: { slug: string }) {
 						{/* Active Coupons */}
 						<div className="mb-8">
 							{activeCoupons.length > 0 ? (
-								activeCoupons.map((coupon) => (
-									<Coupon
-										key={coupon._id}
-										slug={slug}
-										id={coupon._id}
-										code={coupon.couponcode}
-										couponTitle={coupon.coupontitle}
-										description={md.render(coupon.description)}
-										coupontype={coupon.coupontype}
-										couponurl={coupon.couponurl}
-										featured={coupon.featured}
-										expiryDate={new Date(
-											coupon.expiredate
-										).toLocaleDateString()}
-										storeImage={storeData?.images?.[0]}
-										updateDate={new Date(
-											coupon.publishdate
-										).toLocaleDateString()}
-									/>
-								))
+								<SimpleCouponList
+									initialCoupons={activeCoupons.map((coupon) => ({
+										_id: coupon._id,
+										code: coupon.couponcode,
+										description: md.render(coupon.description),
+										expiryDate: new Date(coupon.expiredate).toLocaleDateString(),
+										updateDate: new Date(coupon.publishdate).toLocaleDateString(),
+										storeImage: storeData?.images?.[0],
+										couponTitle: coupon.coupontitle,
+										featured: coupon.featured,
+										coupontype: coupon.coupontype,
+										couponurl: coupon.couponurl,
+										slug: slug,
+										id: coupon._id,
+										order: coupon.order || 0,
+									}))}
+									storeSlug={slug}
+								/>
 							) : (
 								<div className="bg-white p-4 rounded-lg shadow-md text-center py-8">
 									<p className="text-gray-500">

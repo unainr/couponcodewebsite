@@ -1,0 +1,492 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import Link from "next/link";
+import slugify from "slugify";
+import MarkdownEditor from "@/components/dashboard/MarkdownEditor";
+import toast, { Toaster } from 'react-hot-toast';
+
+interface ReferenceOption {
+  _id: string;
+  name: string;
+  slug?: string;
+}
+
+export default function AddCouponPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  
+  // Reference options
+  const [stores, setStores] = useState<ReferenceOption[]>([]);
+  const [couponTypes, setCouponTypes] = useState<ReferenceOption[]>([]);
+  const [seasons, setSeasons] = useState<ReferenceOption[]>([]);
+  const [featured, setFeatured] = useState<ReferenceOption[]>([]);
+
+  // Form data
+  const [formData, setFormData] = useState({
+    coupontitle: "",
+    description: "",
+    couponurl: "",
+    couponcode: "",
+    coupontype: "",
+    store: "",
+    seasonal: "",
+    publishdate: "",
+    expiredate: "",
+    featured: "",
+    order: 0,
+  });
+
+  // Load reference data
+  useEffect(() => {
+    const loadReferenceData = async () => {
+      setLoading(true);
+      try {
+        const [storesRes, typesRes, seasonsRes, featuredRes] = await Promise.all([
+          fetch("/api/dashboard/references/storeAdd"),
+          fetch("/api/dashboard/references/coupontype"),
+          fetch("/api/dashboard/references/seasonal"),
+          fetch("/api/dashboard/references/featured"),
+        ]);
+
+        if (storesRes.ok) {
+          const storesData = await storesRes.json();
+          setStores(storesData.data || []);
+        }
+
+        if (typesRes.ok) {
+          const typesData = await typesRes.json();
+          setCouponTypes(typesData.data || []);
+        }
+
+        if (seasonsRes.ok) {
+          const seasonsData = await seasonsRes.json();
+          setSeasons(seasonsData.data || []);
+        }
+
+        if (featuredRes.ok) {
+          const featuredData = await featuredRes.json();
+          setFeatured(featuredData.data || []);
+        }
+      } catch (error) {
+        console.error("Error loading reference data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReferenceData();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const response = await fetch("/api/dashboard/coupons", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _type: "addCoupon",
+          ...formData,
+          coupontype: formData.coupontype ? { _type: "reference", _ref: formData.coupontype } : undefined,
+          store: formData.store ? { _type: "reference", _ref: formData.store } : undefined,
+          seasonal: formData.seasonal ? { _type: "reference", _ref: formData.seasonal } : undefined,
+          featured: formData.featured ? { _type: "reference", _ref: formData.featured } : undefined,
+          publishdate: formData.publishdate ? new Date(formData.publishdate).toISOString() : undefined,
+          expiredate: formData.expiredate ? new Date(formData.expiredate).toISOString() : undefined,
+          order: Number(formData.order),
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("🎉 Coupon added successfully!", {
+          duration: 4000,
+          position: 'top-center',
+        });
+        setTimeout(() => {
+          router.push("/dashboard/coupons");
+        }, 1000);
+      } else {
+        const error = await response.json();
+        toast.error(`❌ Error: ${error.error || "Failed to create coupon"}`, {
+          duration: 4000,
+          position: 'top-center',
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Error submitting form. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <Toaster />
+        {/* Header Skeleton */}
+        <div className="mb-6">
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-32 mb-4"></div>
+            <div className="h-8 bg-gray-200 rounded w-48 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-64"></div>
+          </div>
+        </div>
+
+        {/* Form Skeleton */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Coupon Title */}
+            <div className="md:col-span-2">
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="md:col-span-2">
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                <div className="h-48 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* URL & Code */}
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* Store & Type */}
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-16 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* Season & Featured */}
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-16 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* Dates */}
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+              </div>
+            </div>
+
+            {/* Order */}
+            <div>
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="h-10 bg-gray-200 rounded w-full"></div>
+                <div className="h-3 bg-gray-200 rounded w-64 mt-1"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Actions Skeleton */}
+          <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
+            <div className="animate-pulse bg-gray-200 rounded h-10 w-20"></div>
+            <div className="animate-pulse bg-gray-200 rounded h-10 w-32"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <Toaster />
+      <div className="mb-6">
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Dashboard
+        </Link>
+        <h1 className="text-2xl font-bold text-gray-900">Add New Coupon</h1>
+        <p className="text-gray-600 mt-1">Create a new coupon code or deal</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Coupon Title */}
+          <div className="md:col-span-2">
+            <label htmlFor="coupontitle" className="block text-sm font-medium text-gray-700 mb-2">
+              Coupon Title *
+            </label>
+            <input
+              type="text"
+              id="coupontitle"
+              name="coupontitle"
+              required
+              value={formData.coupontitle}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter coupon title"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="md:col-span-2">
+            <MarkdownEditor
+              label="Description"
+              value={formData.description}
+              onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
+              placeholder="Enter coupon description with markdown support..."
+              height="200px"
+            />
+          </div>
+
+          {/* Coupon URL */}
+          <div>
+            <label htmlFor="couponurl" className="block text-sm font-medium text-gray-700 mb-2">
+              Coupon URL *
+            </label>
+            <input
+              type="url"
+              id="couponurl"
+              name="couponurl"
+              required
+              value={formData.couponurl}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="https://example.com/deal"
+            />
+          </div>
+
+          {/* Coupon Code */}
+          <div>
+            <label htmlFor="couponcode" className="block text-sm font-medium text-gray-700 mb-2">
+              Coupon Code
+            </label>
+            <input
+              type="text"
+              id="couponcode"
+              name="couponcode"
+              value={formData.couponcode}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter coupon code (leave empty for deals)"
+            />
+          </div>
+
+          {/* Store */}
+          <div>
+            <label htmlFor="store" className="block text-sm font-medium text-gray-700 mb-2">
+              Store *
+            </label>
+            <select
+              id="store"
+              name="store"
+              required
+              value={formData.store}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Select a store</option>
+              {stores.map((store) => (
+                <option key={store._id} value={store._id}>
+                  {store.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Coupon Type */}
+          <div>
+            <label htmlFor="coupontype" className="block text-sm font-medium text-gray-700 mb-2">
+              Coupon Type *
+            </label>
+            <select
+              id="coupontype"
+              name="coupontype"
+              required
+              value={formData.coupontype}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Select coupon type</option>
+              {couponTypes.map((type) => (
+                <option key={type._id} value={type._id}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Season */}
+          <div>
+            <label htmlFor="seasonal" className="block text-sm font-medium text-gray-700 mb-2">
+              Season
+            </label>
+            <select
+              id="seasonal"
+              name="seasonal"
+              value={formData.seasonal}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Select season (optional)</option>
+              {seasons.map((season) => (
+                <option key={season._id} value={season._id}>
+                  {season.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Featured */}
+          <div>
+            <label htmlFor="featured" className="block text-sm font-medium text-gray-700 mb-2">
+              Featured
+            </label>
+            <select
+              id="featured"
+              name="featured"
+              value={formData.featured}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">Not featured</option>
+              {featured.map((feat) => (
+                <option key={feat._id} value={feat._id}>
+                  {feat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Publish Date */}
+          <div>
+            <label htmlFor="publishdate" className="block text-sm font-medium text-gray-700 mb-2">
+              Publish Date *
+            </label>
+            <input
+              type="datetime-local"
+              id="publishdate"
+              name="publishdate"
+              required
+              value={formData.publishdate}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Expire Date */}
+          <div>
+            <label htmlFor="expiredate" className="block text-sm font-medium text-gray-700 mb-2">
+              Expire Date *
+            </label>
+            <input
+              type="datetime-local"
+              id="expiredate"
+              name="expiredate"
+              required
+              value={formData.expiredate}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          {/* Display Order */}
+          <div>
+            <label htmlFor="order" className="block text-sm font-medium text-gray-700 mb-2">
+              Display Order
+            </label>
+            <input
+              type="number"
+              id="order"
+              name="order"
+              value={formData.order}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="0"
+              min="0"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Lower numbers appear first. Use this to set initial order before drag-and-drop.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
+          <Link
+            href="/dashboard"
+            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+          >
+            Cancel
+          </Link>
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+          >
+            {submitting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                Create Coupon
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+}

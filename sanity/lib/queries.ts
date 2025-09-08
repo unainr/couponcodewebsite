@@ -23,7 +23,7 @@ export const FETCH_STORE = defineQuery(`*[_type == "storeAdd"] {
     "country": country->name,
     "category": category->name,
     "images": images[].asset->url,
-    "coupons": *[_type == "addCoupon" && references(^._id)] {
+    "coupons": *[_type == "addCoupon" && references(^._id)] | order(order asc) {
       _id,
       coupontitle,
       description,
@@ -32,7 +32,8 @@ export const FETCH_STORE = defineQuery(`*[_type == "storeAdd"] {
       "coupontype": coupontype->name,
       publishdate,
       expiredate,
-      "featured": featured->name
+      "featured": featured->name,
+      order
     }
   }
   `);
