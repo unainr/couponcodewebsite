@@ -12,9 +12,17 @@ const UserDropDown = () => {
 
   const handleLogout = async () => {
     try {
-      await authClient.signOut();
-      // Redirect to sign-in page after logout
-      router.push("/sign-in");
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            console.log("Logout successful");
+            router.push("/sign-in"); // redirect to sign-in page
+          },
+          onError: (ctx) => {
+            console.error("Logout failed:", ctx.error);
+          }
+        },
+      });
     } catch (error) {
       console.error("Logout failed:", error);
     }
