@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "easymde/dist/easymde.min.css";
+import Script from "next/script";
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -54,14 +55,22 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17599984199"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-17599984199');
-</script>
+			 <head>
+        {/* Google Ads Tag Manager */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17599984199"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17599984199');
+          `}
+        </Script>
+      </head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				{children}
