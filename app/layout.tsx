@@ -54,6 +54,14 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17599984199"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17599984199');
+</script>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				{children}
