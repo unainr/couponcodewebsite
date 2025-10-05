@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { CouponProps } from "@/lib/types";
 import Image from "next/image";
-import { Copy, Star } from "lucide-react";
+import { Check, Copy, Star } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -28,6 +28,8 @@ const Coupon = ({
 	slug,
 	id,
 }: CouponProps) => {
+	const [copied, setCopied] = useState(false);
+
 	const buttonText =
 		coupontype?.toLocaleLowerCase() === "coupon code"
 			? "Show Code"
@@ -48,13 +50,17 @@ const Coupon = ({
 
 	const handleShowUrl = () => {
 		setTimeout(() => {
-			if(couponurl){
-
+			if (couponurl) {
 				window.location.href = couponurl;
 			}
 		}, 1000);
-	 }
+	};
 
+	const handleCopy = () => {
+		navigator.clipboard.writeText(code);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000); // reset after 2s
+	};
 	return (
 		<>
 			<div className="flex flex-col md:flex-row items-start justify-between bg-white p-4 md:p-6 mb-6 rounded-lg  transition-shadow duration-300 gap-4">
@@ -92,16 +98,20 @@ const Coupon = ({
 					</div>
 				</div>
 				<div className="flex flex-col items-center md:items-end mt-2 md:mt-0 w-full md:w-1/4 md:min-w-[150px]">
-				<button onClick={handleShowUrl} className={`bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-200 w-full md:w-auto font-medium ${buttonText === "Show Deal" ? "bg-black hover:bg-gray-800" : "bg-orange-500 hover:bg-orange-600"}`}>
-					<Link
-						href={`/store/${slug}/${storeId}`}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="mb-2">
-						
-						
-					{buttonText}
-					</Link>
+					<button
+						onClick={handleShowUrl}
+						className={`bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition duration-200 w-full md:w-auto font-medium ${
+							buttonText === "Show Deal"
+								? "bg-black hover:bg-gray-800"
+								: "bg-orange-500 hover:bg-orange-600"
+						}`}>
+						<Link
+							href={`/store/${slug}/${storeId}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="mb-2">
+							{buttonText}
+						</Link>
 					</button>
 					<p className="text-sm text-gray-500 mt-2">Updated: {updateDate}</p>
 				</div>
@@ -127,22 +137,37 @@ const Coupon = ({
 											{code ? code : "No Coupon Needed"}
 										</code>
 										{code && (
-											<Link href={couponurl} rel="noopener noreferrer">
+											<div>
 												<Button
-													onClick={() => {
-														navigator.clipboard.writeText(code);
-														// Redirect to coupon URL after copying
-													}}
-													className="  py-1 rounded-md text-sm ">
-													<Copy className="w-4 h-4" />
+													onClick={handleCopy}
+													variant={'outline'}
+													className={`py-1 rounded-md text-sm transition-all duration-200 ${
+														copied ? " text-orange-500" : ""
+													}`}>
+													{copied ? (
+														<div className="flex items-center gap-1 ">
+															<Check className="w-4 h-4 " />
+														</div>
+													) : (
+														<Copy className="w-4 h-4 text-orange-500" />
+													)}
 												</Button>
-											</Link>
+											</div>
+											// <Link href={couponurl} rel="noopener noreferrer">
+											// 	<Button
+											// 		onClick={() => {
+											// 			navigator.clipboard.writeText(code);
+											// 			// Redirect to coupon URL after copying
+											// 		}}
+											// 		className="  py-1 rounded-md text-sm ">
+											// 		<Copy className="w-4 h-4" />
+											// 	</Button>
+											// </Link>
 										)}
 									</div>
 									<div className="flex flex-col bg-orange-400 hover:bg-orange-500 transition-all duration-300 p-1 rounded-full text-white uppercase items-center justify-between  mt-2">
-
 										<Link href={couponurl} rel="noopener noreferrer">
-										Go To {slug}
+											Go To {slug}
 										</Link>
 									</div>
 								</div>

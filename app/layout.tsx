@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "easymde/dist/easymde.min.css";
 import Script from "next/script";
+import NextTopLoader from 'nextjs-toploader';
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -73,6 +75,13 @@ export default function RootLayout({
       </head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+					 <NextTopLoader
+							color="#ff6200"
+							height={2}
+							crawlSpeed={50}
+							speed={1000}
+							showSpinner={false}
+						/>
 				{children}
 			</body>
 		</html>

@@ -15,14 +15,15 @@ const StoreFetch = async () => {
   Most Popular Stores
 </h2>
     
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-7">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-5">
       {stores.map((store) => (
         <Link
           href={`/store/${encodeURIComponent(store.slug)}`}
           key={store._id}
         >
-          <div className="bg-white   hover:border-2 hover:border-orange-500 transition-all duration-300 p-5 h-36 flex  items-center justify-center overflow-hidden">
-            <div className="relative w-full h-24">
+          <div className="bg-white rounded-lg border border-gray-200 hover:border-orange-500 p-4 h-36 flex flex-col items-center justify-center transition-all duration-200">
+            {/* Store logo */}
+            <div className="relative w-full h-20 mb-2">
               {store.imageUrl ? (
                 <Image
                   src={store.imageUrl}
@@ -31,11 +32,16 @@ const StoreFetch = async () => {
                   className="object-contain"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded">
-                  <span className="text-gray-400 text-sm">No image</span>
+                <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded">
+                  <span className="text-gray-400 text-xs">No Logo</span>
                 </div>
               )}
             </div>
+            
+            {/* Store name */}
+            <p className="text-gray-700 text-xs font-medium text-center truncate w-full mt-1">
+              {store.name}
+            </p>
           </div>
         </Link>
       ))}
